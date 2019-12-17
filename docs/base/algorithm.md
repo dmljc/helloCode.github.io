@@ -62,4 +62,53 @@ let test = (arr) => {
 test(arr);   // [1, 2, 3, 4, 6, 9, 49, 50]
 ```
 
+## 两数之和
+给定一个整数数组 nums 和一个目标值 target，请在该数组中找出和为目标值的那两个整数，并返回他们的数组下标。
+
+示例:
+``` js
+给定 nums = [2, 7, 11, 15], target = 9;
+
+因为 nums[0] + nums[1] = 2 + 7 = 9;
+所以返回数组下标 [0, 1];
+```
+<h3>暴力法:</h3>
+
+使用两层循环，外层循环计算当前元素与 target 之间的差值，内层循环寻找该差值，若找到该差值，则返回两个元素的下标。
+
+时间复杂度：O(n^2)。
+``` js
+const sum = (nums, target) => {
+    for (let i = 0, len = nums.length; i < len; i ++) {
+        let diff = target - nums[i];
+        // j = i + 1 的目的是减少重复计算和避免两个元素下标相同
+        for (let j = i + 1, len = nums.length; j < len; j++) {
+            if (nums[j] === diff) {
+                return [i, j]
+            }
+        }
+    }    
+}
+```
+<h3>一次循环</h3>
+
+一次循环，遍历每个元素 item，查找是否存在一个值与 target - item 相等的元素。
+
+时间复杂度：O(n^1)。
+``` js
+const sum = (nums, target) => {
+    for (let i = 0, len = nums.length; i < len; i ++) {
+        let diff = target - nums[i];
+        let index = nums.indexOf(diff, i + 1); 
+        if (index !== -1) {
+            return [i, index];
+        }
+    }
+}
+// array.indexOf(searchElement[, fromIndex = 0])
+```
+
+
+
+
 ## 整理中...

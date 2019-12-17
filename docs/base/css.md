@@ -100,7 +100,7 @@ BFC 全称为块级格式化上下文 (Block Formatting Context) 。BFC是 W3C C
 
 <h3>第三种方法</h3>
 
-给父容器添加 clearfix 的 class ，用 伪元素 clearfix：after 来设置样式，清除浮动
+给父容器添加 clearfix 的 class ，用 伪元素 clearfix::after 来设置样式，清除浮动
 
 ``` js
 <div class="container clearfix">
@@ -111,7 +111,7 @@ BFC 全称为块级格式化上下文 (Block Formatting Context) 。BFC是 W3C C
 .clearfix{
     zoom: 1;         /*IE6*/
 }
-.clearfix:after{
+.clearfix::after{
     content: ".";
     height: 0;
     clear: both;

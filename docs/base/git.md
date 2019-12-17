@@ -109,11 +109,11 @@ r bf232ne 修改之后的倒数第一个 commit 信息！！
 ```
 修改完之后，点击 esc :wq 保存退出。
 
-对于已经 push 的修改使用 revert。你希望撤销哪个 commit，就把它填在后面
+<!-- 对于已经 push 的修改使用 revert。你希望撤销哪个 commit，就把它填在后面
 
 ``` js
 git revert HEAD^
-```
+``` -->
 ## Checkout
 
 checkout 除了切换分支，还可以把未 add 的本地修改撤销

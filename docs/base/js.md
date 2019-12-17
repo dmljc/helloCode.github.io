@@ -89,7 +89,39 @@ for(var i = 0,len = arr.length; i < len; i++){
     console.log(arr[i]);   // 打印的是数组元素 1，2，3
 }
 ```   
-* forEach (数组自带的循环，主要遍历数组，实际性能比for还弱，无返回值）
+* map （有返回值，返回值组成新数组，原数组不变）
+  
+``` js
+let arr = [1, 2, 3];
+
+let resArr = arr.map(el => el * 2);
+
+console.log(resArr);   // 打印的是数组元素 1，2，3
+```  
+**map 的第二个参数 this 经常被人遗忘，这里需要着重强调下！！！**
+
+>array.map(function(currentValue,index,arr), this);
+
+第二个参数 this 是一个前面已经声明过的变量。如果你传入 this，那么这个 this 会往它所在的上一级作用域去找。如果可以找到对应的实例化对象，那么 this 就是这个实例化对象了，如果找不到，那 this 就指向了全局对象。
+
+还是要举个栗子：
+``` js
+// 在实例化对象 a 中
+const array = [1,2,3];
+const a = {
+    mapObject() {
+        array.map(function(){}, this) // 这个时候的 this 是 a
+    }
+}
+
+// 如果不是在一个实例化对象里面
+array.map(function() {}, this) // this 是 window 或者 global
+```
+
+array.map(function() {}, this) 的作用实际上和 array.map(function() {}.bind(this)) 是一样的。
+map 的第二个参数就是给第一个参数 bind 一个对象，这样在第一个参数里面就可以用 this 代替第二个参数。
+
+* forEach (数组自带的循环，主要遍历数组，实际性能比for还弱，无返回值，第二个参数同上）
 
 ``` js
 let arr = [1, 2, 3];
@@ -101,17 +133,7 @@ arr.forEach((el) => {
 // forEach 有一个小缺陷：不能使用break语句中断循环，也不能使用return语句返回到外层函数。
 ```   
  
-* map （有返回值，返回值组成新数组，原数组不变）
-
-``` js
-let arr = [1, 2, 3];
-
-let resArr = arr.map(el => el * 2);
-
-console.log(resArr);   // 打印的是数组元素 1，2，3
-```    
-
-* filter （过滤符合条件的元素组成一个新数组，原数组不变，有返回值）
+* filter （过滤符合条件的元素组成一个新数组，原数组不变，有返回值，第二个参数同上）
 
 ``` js
 let arr = [1, 2, 3];
@@ -121,7 +143,7 @@ let resArr = arr.filter(el => el > 1);
 console.log(resArr);   // 打印的是数组元素 2，3
 ```   
 
-* some （遍历数组中是否有符合条件的函数，返回布尔值）
+* some （遍历数组中是否有符合条件的函数，返回布尔值，第二个参数同上）
 ``` js
 let arr = [1, 2, 3];
 
@@ -130,7 +152,7 @@ let resArr = arr.some(el => el > 2);
 console.log(resArr);   // true
 ```    
  
-* every （遍历数组是否每个元素都符合条件，返回布尔值）
+* every （遍历数组是否每个元素都符合条件，返回布尔值，第二个参数同上）
 
 ``` js
 let arr = [1, 2, 3];
@@ -143,6 +165,7 @@ console.log(resArr);   // false
 * reduce （对数组中的每个元素执行一个由您提供的reducer函数(升序执行)，将其结果汇总为单个返回值）
 
 ``` js
+// Number 类型累加 demo
 let arr = [1, 2, 3];
 
 let sum = arr.reduce((total, el) => {
@@ -153,9 +176,21 @@ let sum = arr.reduce((total, el) => {
 // 在没有初始值的空数组上调用 reduce 将报错。
 
 console.log(sum);  // 16
+
+// String 类型累加 demo
+let list = [
+    {length: 1, width: 2, height: 3, count: 4}, 
+    {length: 99, width: 99, height: 99, count: 99}
+]
+
+let str = list.reduce((total, item, index) => {
+    return total += `${index === 0 ? '' : ','} ${item.length}cm * ${item.width}cm * ${item.height}cm * ${item.count}`
+}, '');
+
+console.log(str); // 1cm * 2cm * 3cm * 4件, 99cm * 99cm * 99cm * 99件
 ```   
 
-* find （返回数组中满足提供的测试函数的第一个元素的值。否则返回 undefined）
+* find （返回数组中满足提供的测试函数的第一个元素的值。否则返回 undefined，第二个参数同上）
 
 ``` js
 let arr = [1, 2, 3];
@@ -165,7 +200,7 @@ let resArr = arr.find(el => el > 2);
 console.log(resArr);  // 打印数组元素 3
 ```    
 
-* findIndex （返回数组中满足提供的测试函数的第一个元素的索引。否则返回-1）
+* findIndex （返回数组中满足提供的测试函数的第一个元素的索引。否则返回-1，第二个参数同上）
 
 ``` js
 let arr = [1, 2, 3];
