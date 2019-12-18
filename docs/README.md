@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /logo.jpeg
+heroImage: /images/logo.jpeg
 actionText: 快速上手 →
 actionLink: /base/js
 features:
