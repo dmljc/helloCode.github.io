@@ -8,7 +8,8 @@ module.exports = {
         nav: [
             { text: '前端技能', link: '/base/js' },
             { text: '性能优化', link: '/optimize/optim' },
-            { text: '面试宝典', link: '/interview/inter' }
+            { text: '面试宝典', link: '/interview/inter' },
+            { text: 'Common-Vue', link: 'http://common-vue.com/' }
         ],
         sidebar: {
             '/base': [
