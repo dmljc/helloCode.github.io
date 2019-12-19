@@ -220,7 +220,7 @@ resolve: {
     }
 }
 ```
-[resolve.alias、extension](http://zhangfangchao.com/webpack/Webpack.html#%E8%A7%A3%E6%9E%90-resolve)
+[resolve.alias、extension](http://zhangfangchao.com/base/webpack.html#%E5%87%8F%E5%B0%91%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E8%8C%83%E5%9B%B4)
 
 ### 2.2 对图片进行压缩
 
@@ -248,7 +248,7 @@ npm install image-webpack-loader --save-dev
     ]
 }
 ```
-[图片处理图片成 base64](http://zhangfangchao.com/webpack/Webpack.html#%E6%9B%B4%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%A4%84%E7%90%86%E5%9B%BE%E7%89%87%E6%88%90-base64)
+[图片处理图片成 base64](http://zhangfangchao.com/base/webpack.html#%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9)
 
 ### 2.3 CSS 抽离
 
@@ -294,7 +294,7 @@ optimization: {
     }
 }
 ```
-[Code Splitting](http://zhangfangchao.com/webpack/Webpack.html#code-splitting)
+[Code Splitting](http://zhangfangchao.com/base/webpack.html#code-splitting)
 
 ### 2.5 减少 ES6 转为 ES5 的冗余代码
 
@@ -323,9 +323,10 @@ npm install babel-plugin-transform-runtime --save-dev
 ]
 ```
 
-### 2.6 CSS JS 压缩
+### 2.6 HTML CSS JS 压缩
 
 ``` js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
@@ -341,7 +342,8 @@ module.exports = {
                 removeComments: true,   // 移除注释
                 removeAttributeQuotes: true // 移除属性的引号
             }
-        })
+        }),
+        new OptimizeCssAssetsPlugin();
     ],
     optimization: {
         minimizer: [
@@ -403,7 +405,7 @@ module.exports = {
     }
 }
 ```
-[Tree Shaking](http://zhangfangchao.com/webpack/Webpack.html#tree-shaking)
+[Tree Shaking](http://zhangfangchao.com/base/webpack.html#tree-shaking)
 
 ### 2.9 合并两个webpack的js配置文件
 
@@ -411,8 +413,6 @@ module.exports = {
 就非常不爽。
 
 `webpack-merge` 的工具可以实现两个配置文件进合并，这样我们就可以把 开发环境和生产环境的公共配置抽取到一个公共的配置文件中。
-
-[webpack-merge](http://zhangfangchao.com/webpack/Webpack.html#%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AAwebpack%E7%9A%84js%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6)
 
 ### 2.10 JS 使用 source map
 
@@ -429,9 +429,6 @@ module.exports = {
 
 // CSS 也可以开启source map
 ```
-
-![inline-source-map](http://i2.tiimg.com/698361/696d3406150c10e4.jpg)
-
 
 ### 2.11 构建结果输出分析
 
