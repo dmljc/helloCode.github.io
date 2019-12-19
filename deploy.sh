@@ -10,11 +10,11 @@ npm run docs:build
 cd docs/.vuepress/dist
 
 # 如果是发布到自定义域名
-echo 'zhangfangchao.com/' > CNAME
+echo 'zhangfangchao.com' > CNAME
 
 git init
 git add .
-git commit -m '测试自动发布自定义域名'
+git commit -m '自动发布自定义域名'
 
 # 如果发布到 https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
