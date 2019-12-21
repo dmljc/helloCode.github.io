@@ -231,21 +231,19 @@ npm install image-webpack-loader --save-dev
 
 {
     test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-    use:[
-        {
-          loader: 'url-loader',
-          options: {
-              limit: 10000,
+    use:[{
+        loader: 'url-loader',
+        options: {
+            limit: 10000,
                 name: utils.assetsPath('img/[name].[hash:7].[ext]')
-              }
-          },
-          {
-              loader: 'image-webpack-loader',
-              options: {
-                  bypassOnDebug: true,
-              }
-        }
-    ]
+            }
+        },
+        {
+            loader: 'image-webpack-loader',
+            options: {
+                bypassOnDebug: true,
+            }
+        }]
 }
 ```
 [图片处理图片成 base64](http://zhangfangchao.com/base/webpack.html#%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9)
@@ -534,7 +532,7 @@ ETag 和 Last-Modified 类似，If-None-Match 会将当前 ETag 发送给服务�
 * 带宽优化及网络连接的使用
 * 错误通知的管理
 * Host头处理
-* 长连接：1.1中默认开启Connection：keep-alive，弥补了1.0每次请求都要创建连接的缺点
+* 改进持久连接：1.1中默认开启Connection：keep-alive，弥补了1.0每次请求都要创建连接的缺点
 
 <h3>相对于 HTTP / 1.1，HTTP / 2.0的优化</h3>
 

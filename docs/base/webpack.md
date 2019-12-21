@@ -122,9 +122,9 @@ module.exports = {
 
 | 名称           | 描述  |
 | ---------- | :-----|
-| CommonsChunkPlugin       | 将 chunks 相同的模块代码提取为公共的js |
+| SplitChunksPlugin       | 将 chunks 相同的模块代码提取为公共的js |
 | CleanWebpackPlugin     |   清理构建目录 |
-| ExtractTextWebpackPlugin    |  将 css 从 bundle 文件提取为独立的 css文件 |
+| MiniCssExtractPlugin    |  将 css 从 bundle 文件提取为独立的 css文件 |
 | HtmlWebpackPlugin     |   创建 html 文件 并自动把打包后的 CSS 或者JS 文件直接注入到 HTML 模板中 |
 | UglifyjsWebpackPlugin     |   压缩 js    |
 | ZipWebpackPlugin     |   把打包出的资源压缩为 .zip 文件 |
@@ -722,7 +722,7 @@ rules: [
 
 ### 速度分析
 
-使用 speed-measure-webpack-plugin 可以看到每个 loader 和插件执行耗时，以有利于我们针对打包速度取做优化。
+使用 speed-measure-webpack-plugin 可以看到每个 loader 和插件执行耗时，以有利于我们针对打包速度去做优化。
 
 ``` js
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
