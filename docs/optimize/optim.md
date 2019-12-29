@@ -99,11 +99,11 @@ PS：防抖和节流的作用都是防止函数多次调用。区别在于，假
 function debounce(fn, delay) {
     let timer = null; // 定时器
     return () => { // 将debounce处理结果当作函数返回
-        let context = this; // 保留调用时的this上下文
+        let self = this; // 保留调用时的this上下文
         let args = arguments; // 保留调用时传入的参数
         if (timer) clearTimeout(timer);  // 每次事件被触发时，都去清除之前的旧定时器
         timer = setTimeout(() => { // 设立新定时器
-            fn.apply(context, args);
+            fn.apply(self, args);
         }, delay);
     }
 }
@@ -119,12 +119,12 @@ document.addEventListener('scroll', debounce(() => console.log('触发了滚动�
 function throttle(fn, interval) {
     let last = 0 // last为上一次触发回调的时间
     return () => { // 将throttle处理结果当作函数返回
-        let context = this; // 保留调用时的this上下文
+        let self = this; // 保留调用时的this上下文
         let args = arguments; // 保留调用时传入的参数
         let now = +new Date(); // 记录本次触发回调的时间
         if (now - last >= interval) { // 判断上次触发的时间和本次触发的时间差是否小于时间间隔的阈值
             last = now; // 如果时间间隔大于我们设定的时间间隔阈值，则执行回调
-            fn.apply(context, args);
+            fn.apply(self, args);
         }
     }
 }
