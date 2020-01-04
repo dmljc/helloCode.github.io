@@ -16,7 +16,7 @@ box-sizing: border-box：元素的宽高表现为内容 + 内边距 + 边框的�
 
 ## 什么是BFC
 
-BFC 全称为块级格式化上下文 (Block Formatting Context) 。BFC是 W3C CSS 2.1 规范中的一个概念，它决定了元素如何对其内容进行定位以及与其他元素的关系和相互作用，当涉及到可视化布局的时候，Block Formatting Context提供了一个环境，HTML元素在这个环境中按照一定规则进行布局。
+BFC 全称为块级格式化上下文 (Block Formatting Context) 。BFC是 W3C CSS 2.1 规范中的一个概念，**它决定了元素如何对其内容进行定位以及与其他元素的关系和相互作用**，当涉及到可视化布局的时候，Block Formatting Context提供了一个环境，HTML元素在这个环境中按照一定规则进行布局。
 
 一个环境中的元素不会影响到其它环境中的布局。比如浮动元素会形成BFC，浮动元素内部子元素的主要受该浮动元素影响，两个浮动元素之间是互不影响的。这里有点类似一个BFC就是一个独立的行政单位的意思。可以说BFC就是一个作用范围，把它理解成是一个独立的容器，并且这个容器里box的布局与这个容器外的box毫不相干。
 
@@ -242,6 +242,11 @@ div {
 ```
 [在线体验 CSS3 animation](https://codepen.io/zhangfangchao/pen/XWrVVpX)
 
+## transition 和 animation 的区别
+
+Animation和transition大部分属性是相同的，他们都是随时间改变元素的属性值，他们的主要区别是transition需要触发一个事件才能改变属性，
+而animation不需要触发任何事件的情况下才会随时间改变属性值，并且transition为2帧，从from .... to，而animation可以一帧一帧的。
+
 <h3>transform（转变）</h3>
 
 translate 平移
@@ -291,7 +296,7 @@ transform: matrix(0.866,0.5,-0.5,0.866,0,0);
 ```
 [在线预览 CSS3 transform](https://codepen.io/zhangfangchao/pen/ZEzvJZB)
 
-## 水平居中方案
+<!-- ## 水平居中方案
 
 <h3>text-align: center</h3>
 
@@ -353,7 +358,7 @@ transform: matrix(0.866,0.5,-0.5,0.866,0,0);
     margin-left: -150px;
 }
 ```
-[在线预览 水平居中](https://codepen.io/zhangfangchao/pen/BaBmXLv)
+[在线预览 水平居中](https://codepen.io/zhangfangchao/pen/BaBmXLv) -->
 
 <!-- ## 垂直居中
 
@@ -533,8 +538,8 @@ transform: matrix(0.866,0.5,-0.5,0.866,0,0);
 .box5 > div {
     height: 20px;
     background: yellowgreen;
-    align-self: center;
-    justify-self: center;
+    justify-self: center; // 水平居中
+    align-self: center; // 垂直居中
 }
 ```
 [在线预览 水平垂直居中](https://codepen.io/zhangfangchao/pen/wvwpBrZ)

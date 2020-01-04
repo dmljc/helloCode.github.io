@@ -37,7 +37,7 @@ TCP：是一种面向连接的、可靠的、基于字节流的传输层通信�
 
 <h3>HTTP 协议是基于 TCP 协议的，你怎么理解 HTTP 和 TCP 的关系？</h3>
 
-TPC 协议是传输层协议，主要解决数据如何在网络中传输，而 HTTP 是应用层协议，主要解决如何包装数据。
+TCP 协议是传输层协议，主要解决数据如何在网络中传输，而 HTTP 是应用层协议，主要解决如何包装数据。
 
 ## 从输入 URL 到页面展示
 
@@ -280,7 +280,7 @@ HTTP / 1.0 除了对多文件提供良好的支持外，还依据当时实际的
 
 <h3>关于HTTP / 1 的缓存这里需要着重介绍下</h3>
 
-缓存对于前端性能优化来说是个很重要的点，良好的缓存策略可以降低资源的重复加载提高网页的整体加载速度。 通常浏览器缓存策略分为两种：强缓存 和 协商缓存（后端配置）。
+缓存对于前端性能优化来说是个很重要的点，良好的缓存策略可以降低资源的重复加载提高网页的整体加载速度。 通常浏览器缓存策略分为两种：强缓存 和 协商缓存（后端服务器做配置）。
 
 <h3>强缓存（Expires 和 Cache-Control）表示在缓存期间不需要请求</h3>
 
@@ -517,7 +517,8 @@ node.addEventListener('click',(event) => {
 ## 跨域
 
 因为浏览器出于安全考虑，有同源策略。也就是说，如果协议、域名或者端口有一个不同就是跨域，Ajax 请求会失败。
-以下是解决跨域问题常见的方案：
+
+![](https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3601471790,1944560704&fm=26&gp=0.jpg)
 
 <h3>JSONP</h3>
 
@@ -534,7 +535,7 @@ function jsonp(data) {
 
 JSONP 使用简单且兼容性不错，但是只限于 `get` 请求。
 
-在开发中可能会遇到多个 JSONP 请求的回调函数名是相同的，这时候就需要自己封装一个 JSONP，以下是简单实现
+<!-- 在开发中可能会遇到多个 JSONP 请求的回调函数名是相同的，这时候就需要自己封装一个 JSONP，以下是简单实现
 
 ```js
 function jsonp(url, jsonpCallback, success) {
@@ -554,60 +555,119 @@ jsonp(
         console.log(value);
     }
 );
-```
+``` -->
+
 <h3>CORS</h3>
-<!-- 浏览器会自动进行 CORS 通信，实现CORS通信的关键是后端。只要后端实现了 CORS，就实现了跨域。
 
-服务端设置 `Access-Control-Allow-Origin` 就可以开启 CORS。 该属性表示哪些域名可以访问资源，如果设置通配符则表示所有网站都可以访问资源。 -->
+CORS （跨域资源共享）需要浏览器和服务器同时支持。目前，所有浏览器都支持该功能，IE浏览器不能低于IE10。
 
-CORS（跨域资源共享 Cross-origin resource sharing）允许浏览器向跨域服务器发出XMLHttpRequest请求，从而克服跨域问题，它需要浏览器和服务器的同时支持。
+整个CORS通信过程，都是浏览器自动完成，不需要用户参与。对于开发者来说，CORS通信与同源的AJAX通信没有差别，
+代码完全一样。浏览器一旦发现AJAX请求跨源，就会自动添加一些附加的头信息，有时还会多出一次附加的请求，但用户不会有感觉。
 
-* 浏览器端会自动向请求头添加origin字段，表明当前请求来源。
-* 服务器端需要设置响应头的Access-Control-Allow-Methods，Access-Control-Allow-Headers，Access-Control-Allow-Origin等字段，指定允许的方法，头部，源等信息。
-* 请求分为简单请求和非简单请求，非简单请求会先进行一次OPTION方法进行预检，看是否允许当前跨域请求。
+因此，实现 CORS 通信的关键是服务器。只要服务器实现了 CORS 接口，就可以跨源通信。
+
+<h3>两种请求</h3>
+
+请求分为简单请求和非简单请求，非简单请求会先进行一次OPTION方法进行预检，看是否允许当前跨域请求。
 
 <h3>简单请求</h3>
 
-请求方法是以下三种方法之一：
+只要同时满足以下两大条件，就属于简单请求。
+
+``` js
+// 1、请求方法是以下三种方法之一：
 
 * HEAD
 * GET
 * POST
 
-HTTP的请求头信息不超出以下几种字段：
+// 2、HTTP的请求头信息不超出以下几种字段：
 
 * Accept
 * Accept-Language
 * Content-Language
 * Last-Event-ID
-* Content-Type：只限于三个值application/x-www-form-urlencoded、multipart/form-data、text/plain
+* Content-Type：
+    // 只限于以下三个值
+    * application/x-www-form-urlencoded、// 表单默认的提交数据的格式
+    * multipart/form-data、 // 文件上传的格式
+    * text/plain            // 纯文本格式
+```
+凡是不同时满足上面两个条件，就属于非简单请求。
 
-后端的响应头信息：
+简单请求的基本流程：
 
-* Access-Control-Allow-Origin：该字段是必须的。它的值要么是请求时Origin字段的值，要么是一个*，表示接受任意域名的请求。
-* Access-Control-Allow-Credentials：该字段可选。它的值是一个布尔值，表示是否允许发送Cookie。
-* Access-Control-Expose-Headers：该字段可选。CORS请求时，XMLHttpRequest对象的getResponseHeader()方法只能拿到6个基本字段：Cache-Control、Content-Language、Content-Type、Expires、Last-Modified、Pragma。如果想拿到其他字段，就必须在Access-Control-Expose-Headers里面指定。
+对于简单请求，浏览器直接发出 CORS 请求。会自动在头信息之中，添加一个 Origin 字段。
+
+``` js{2}
+GET /cors HTTP/1.1
+Origin: http://api.bob.com 
+Host: api.alice.com
+Accept-Language: en-US
+Connection: keep-alive
+User-Agent: Mozilla/5.0...
+```
+Origin 字段用来说明，请求来自哪个源（协议 + 域名 + 端口）。服务器根据这个值，决定是否同意这次请求。
+
+如果 Origin 指定的域名在许可范围内，服务器返回的响应，会多出几个头信息字段。
+
+``` js
+Access-Control-Allow-Origin: http://api.bob.com
+// 该字段是必须的。它的值要么是请求时Origin字段的值，要么是一个*，表示接受任意域名的请求。
+
+Access-Control-Allow-Credentials: true
+// 该字段可选。它的值是一个布尔值，表示是否允许发送 Cookie。默认情况下，
+// Cookie 不包括在 CORS 请求之中。设为true，即表示服务器明确许可，Cookie可以包含在请求中，
+
+Access-Control-Expose-Headers: FooBar
+// 该字段可选。CORS请求时，XMLHttpRequest对象的getResponseHeader()方法只能拿到6个基本字段：
+// Cache-Control、Content-Language、Content-Type、Expires、Last-Modified、Pragma。
+// 如果想拿到其他字段，就必须在Access-Control-Expose-Headers里面指定。上面的例子指定，
+// getResponseHeader('FooBar')可以返回FooBar字段的值。
+
+Content-Type: text/html; charset=utf-8
+```
+
+如果 Origin 指定的源，不在许可范围内，服务器会返回一个正常的 HTTP 回应。浏览器发现，这个回应的头信息没有包含 
+Access-Control-Allow-Origin 字段（详见下文），就知道出错了，从而抛出一个错误，被 XMLHttpRequest 的 onerror 回调函数捕获。
+注意，这种错误无法通过状态码识别，因为 HTTP 回应的状态码有可能是200。
 
 <h3>非简单请求</h3>
 
-非简单请求是那种对服务器有特殊要求的请求，比如请求方法是PUT或DELETE，或者Content-Type字段的类型是application/json。非简单请求的CORS请求，会在正式通信之前，增加一次HTTP查询请求，称为"预检"请求（preflight）。
+**非简单请求的 CORS 请求，会在正式通信之前，增加一次 HTTP 查询请求，称为"预检"请求。**
 
-* Access-Control-Request-Method：该字段是必须的，用来列出浏览器的CORS请求会用到哪些HTTP方法，上例是PUT。
+浏览器先询问服务器，当前网页所在的域名是否在服务器的许可名单之中，以及可以使用哪些 HTTP 动词和头信息字段。
+只有得到肯定答复，浏览器才会发出正式的 XMLHttpRequest 请求，否则就报错。
 
-* Access-Control-Request-Headers：该字段是一个逗号分隔的字符串，指定浏览器CORS请求会额外发送的头信息字段，上例是X-Custom-Header。
+服务器收到"预检"请求以后，检查了 Origin、Access-Control-Request-Method  和 Access-Control-Request-Headers
+字段以后，确认允许跨源请求，就可以做出回应。
 
-如果浏览器否定了"预检"请求，会返回一个正常的HTTP回应，但是没有任何CORS相关的头信息字段。这时，浏览器就会认定，服务器不同意预检请求，因此触发一个错误，被XMLHttpRequest对象的onerror回调函数捕获。
+``` js{4,5,6}
+HTTP/1.1 200 OK
+Date: Mon, 01 Dec 2008 01:15:39 GMT
+Server: Apache/2.0.61 (Unix)
+Access-Control-Allow-Origin: http://api.bob.com
+Access-Control-Allow-Methods: GET, POST, PUT
+Access-Control-Allow-Headers: X-Custom-Header
+Content-Type: text/html; charset=utf-8
+Content-Encoding: gzip
+Content-Length: 0
+Keep-Alive: timeout=2, max=100
+Connection: Keep-Alive
+Content-Type: text/plain
+```
+<h3>nginx 反向代理</h3>
 
+通过 nginx 配置一个代理服务器（域名与domain1 相同，端口不同）做跳板机，反向代理访问 domain2 接口，
+并且可以顺便修改 cookie 中 domain 信息，方便当前域 cookie 写入，实现跨域登录。
 
-<h3>Nginx</h3>
-
-在 vue 工程中，我们一般会通过代理的方式解决 开发环境 中的跨域问题；生产环境 中的跨域需要后端同学配置nginx。
+在 vue 工程中，我们一般会通过代理的方式解决 开发环境 中的跨域问题；生产环境 中的跨域需要后端同学配置 nginx。
 
 ``` js
 proxyTable: {
     // 用‘/api’开头，代理所有请求到目标服务器
     '/api': {
-        target: 'http://localhost:8090/',//设置你调用的接口域名和端口号 别忘了加http
+        target: 'http://localhost:8090/',//设置你调用的接口域名和端口号
         changeOrigin: true, // 是否启用跨域
         pathRewrite: {
             '^/api': ''
@@ -618,31 +678,27 @@ proxyTable: {
 ```
 注意：配置好后一定要关闭原来的server，重新npm run dev启动项目。不然无效。
 
-<h3>document.domain</h3>
+生产环境配置如下：先下载 nginx，然后将 nginx 目录下的 nginx.conf 修改如下:
 
-该方式只能用于二级域名相同的情况下，比如 `a.test.com` 和 `b.test.com` 适用于该方式。
+``` js
+// proxy服务器
+server {
+    listen       81;
+    server_name  www.domain1.com;
+    location / {
+        proxy_pass   http://www.domain2.com:8080;  #反向代理
+        proxy_cookie_domain www.domain2.com www.domain1.com; #修改cookie里域名
+        index  index.html index.htm;
 
-只需要给页面添加 `document.domain = 'test.com'` 表示二级域名都相同就可以实现跨域
-
-<h3>postMessage</h3>
-
-这种方式通常用于获取嵌入页面中的第三方页面数据。一个页面发送消息，另一个页面判断来源并接收消息
-
-```js
-// 发送消息端
-window.parent.postMessage('message', 'http://test.com');
-// 接收消息端
-var mc = new MessageChannel();
-mc.addEventListener('message', (event) => {
-    var origin = event.origin || event.originalEvent.origin; 
-    if (origin === 'http://test.com') {
-        console.log('验证通过')
+        # 当用webpack-dev-server等中间件代理接口访问nignx时，此时无浏览器参与，故没有同源限制，下面的跨域配置可不启用
+        add_header Access-Control-Allow-Origin http://www.domain1.com;  #当前端只跨域不带cookie时，可为*
+        add_header Access-Control-Allow-Credentials true;
     }
-});
+}
 ```
 
 ::: tip 总结
-解决跨域的方式有很多。但是，在实际的项目中最常用的还是 CORS 和 代理。
+解决跨域的方式有很多。但是，在实际的项目中最常用的还是 CORS 和 nginx。
 :::
 
 ## Event loop

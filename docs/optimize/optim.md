@@ -573,19 +573,6 @@ DNS 解析也是需要时间的，可以通过预解析的方式来预先获得�
 
 预渲染虽然可以提高页面的加载速度，但是要确保该页面百分百会被用户在之后打开，否则就白白浪费资源去渲染
 
-### 3.4 Chrome Performance
-
-Chrome 的 Performance 面板可以录制一段时间内的 js 执行细节及时间。使用 Chrome 开发者工具分析页面性能的步骤如下。
-
-打开 Chrome 开发者工具，切换到 Performance 面板
-点击 Record 开始录制
-刷新页面或展开某个节点
-点击 Stop 停止录制
-
-![gBwRad.jpg](https://t1.picb.cc/uploads/2019/09/11/gBwRad.jpg)
-
-[更多关于 Performance 的内容可以点击这里查看](https://www.cnblogs.com/xiaohuochai/p/9182710.html)
-
 ## 总结
 
 本文通过以下三部分组成：Vue 代码层面的优化、webpack 配置层面的优化、基础的 Web 技术层面的优化；来介绍怎么去优化 Vue 项目的性能。 希望对读完本文的你有帮助、有启发，如果有不足之处，欢迎批评指正交流！
