@@ -562,9 +562,9 @@ module.exports = {
     plugins: [].concat(htmlWebpackPlugins)
 };
 ```
-### 基础库分离
+### 基础库分离 externals
 
-* 将 react、react-dom 基础包通过 cdn 引⼊，不打⼊ bundle 中
+* 如果我们想引用一个库，但是又不想让 webpack 打包，并且又不影响我们在项目中使用,可以配置 Externals 解决。
 * 使用 html-webpack-externals-plugin
   
 ``` js
@@ -626,34 +626,40 @@ optimization: {
 App 往往有一个入口文件，相当于一棵树的主干，入口文件有很多依赖的模块，相当于树枝。实际情况中，虽然依赖了某个模块，
 但其实只使用其中的某些功能。通过 Tree shaking，将没有使用的模块摇掉，这样来达到删除无用代码的目的。
 
-<h3>JS Tree Shaking</h3>
+> 这里单独提一下tree-shaking,是因为这里有个坑。tree-shaking的主要作用是用来清除代码中无用的部分。目前在webpack4 我们设置mode为production的时候已经自动开启了tree-shaking。但是要想使其生效，生成的代码必须是ES6模块。不能使用其它类型的模块如CommonJS之流。如果使用Babel的话，这里有一个小问题，因为Babel的预案（preset）默认会将任何模块类型都转译成CommonJS类型，这样会导致tree-shaking失效。修正这个问题也很简单，在.babelrc文件或在webpack.config.js文件中设置modules：false  就好了。
 
 ``` js
-module.exports = {
-    ...
-    // 开启 JS tree shaking
-    optimization: {
-        usedExports: true
-    }
+// .babelrc
+{
+    "presets": [
+        ["@babel/preset-env",
+            {
+                "modules": false
+            }
+        ]
+    ]
 }
 ```
-<h3>CSS Tree Shaking</h3>
+或者：
 
 ``` js
-const PurifyCSS = require('purifycss-webpack')
-const glob = require('glob-all')
-...
-plugins:[
-    // 清除无用 css
-    new PurifyCSS({
-        paths: glob.sync([
-            // 要做 CSS Tree Shaking 的路径文件
-            path.resolve(__dirname, './src/*.html'), // 请注意，我们同样需要对 html 文件进行 tree shaking
-            path.resolve(__dirname, './src/*.js')
-        ])
-    })
-]
+// webpack.config.js
+module: {
+    rules: [
+        {
+            test: /\.js$/,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['@babel/preset-env', { modules: false }]
+                }
+            }，
+            exclude: /(node_modules)/
+        }
+    ]
+}
 ```
+
 Tree-shaking 原理：
 
 利⽤ ES6 模块的特点:
@@ -752,7 +758,7 @@ const webpackConfig = smp.wrap({
 
 ### 多进程 HappyPack
 
-原理:每次 webapck 解析一个模块，HappyPack 会将它及它的依赖分配给 worker 线程中。
+原理:每次 webapck 解析一个模块，HappyPack 会将这部分任务分解到多个子进程中去并行处理，子进程处理完成后把结果发送到主进程中，从而减少总的构建时间。
 
 ``` js
 exports.plugins = [
@@ -829,6 +835,83 @@ optimization: {
     ]
 }
 ```
+### 抽离第三方模块
+
+对于开发项目中不经常会变更的第三方模块。类似于我们的 elementUi、vue 全家桶等等。因为很少会变更，所以我们不希望这些依赖要被集成到每一次的构建逻辑中去。 这样做的好处是每次更改我本地代码的文件的时候，webpack 只需要打包我项目本身的文件代码，而不会再去编译第三方库。以后只要我们不升级第三方包，那么webpack 就不会对这些库去打包，这样可以快速的提高打包的速度。
+
+使用 webpack 内置的 DllPlugin、DllReferencePlugin 进行抽离。在与 webpack 配置文件同级目录下新建 webpack.dll.config.js 代码如下：
+
+``` js{7}
+// webpack.dll.config.js
+const path = require("path");
+const webpack = require("webpack");
+
+module.exports = {
+    entry: {
+        vendor: ['vue', 'vuex', 'vue-router', 'element-ui']  // 想要打包的模块
+    },
+    output: {
+        path: path.resolve(__dirname, 'static/js'), // 打包后文件输出的位置
+        filename: '[name].dll.js',
+        library: '[name]_library' 
+        // 这里需要和 webpack.DllPlugin 中的 `name: '[name]_library',` 保持一致。
+    },
+    plugins: [
+        new webpack.DllPlugin({
+            path: path.resolve(__dirname, '[name]-manifest.json'),
+            name: '[name]_library', 
+            context: __dirname
+        })
+    ]
+};
+```
+在 package.json 中配置如下命令:
+
+``` js
+"dll": "webpack --config build/webpack.dll.config.js"
+```
+
+接下来在 webpack.config.js 中增加以下代码:
+
+``` js
+module.exports = {
+    plugins: [
+        new webpack.DllReferencePlugin({
+            context: __dirname,
+            manifest: require('./vendor-manifest.json')
+        }),
+        new CopyWebpackPlugin([  // 拷贝生成的文件到dist目录 这样每次不必手动去cv
+            { from: 'static', to:'static' }
+        ])
+    ]
+};
+```
+执行:
+
+``` js
+npm run dll
+```
+生成了集合第三地方代码的 vendor.dll.js。但是，需要在 html 文件中手动引入这个js文件:
+
+``` js
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>老yuan</title>
+    <script src="static/js/vendor.dll.js"></script>   // 手动引入这个js文件
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+```
+
+如果我们没有更新第三方依赖包，就不必 npm run dll。直接执行 npm run dev、 npm run build 的时候打包速度明显有提升。
+因为我们已经通过 dllPlugin 将第三方依赖包抽离出来了。
+
 ### 缓存
 
 目的：提升二次构建速度。
@@ -945,32 +1028,6 @@ module.exports = {
 效果如下图所示：
 
 ![gFDblJ.jpg](https://t1.picb.cc/uploads/2019/09/18/gFDblJ.jpg)
-
-### [webpack-dashboard](https://www.npmjs.com/package/webpack-dashboard)
-
-当然，如果你对 webpack 原始的构建输出不满意的话，也可以使用这样一款 Plugin 来优化你的输出界面。
-
-``` js
-npm install webpack-dashboard -D
-
-// webpack.prod.js
-// 导入dashboard和其对应的插件，并创建一个dashboard的实例：
-const Dashboard = require('webpack-dashboard');
-const DashboardPlugin = require('webpack-dashboard/plugin');
-const dashboard = new Dashboard();
-
-...
-new DashboardPlugin(dashboard.setData)
-
-"scripts": {
-  "dev": "webpack-dev-server --quiet"
-}
-```
-效果请看下图：
-
-![gFDXAa.jpg](https://t1.picb.cc/uploads/2019/09/18/gFDXAa.jpg)
-
-**注意：上图是 npm run dev 时候的效果。**
 
 ## 总结
 
