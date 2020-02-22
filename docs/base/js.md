@@ -588,7 +588,7 @@ b.bind(a, 1, 2)() // 3
 ``` js
 function create() {
     // 创建一个空的对象
-    let obj = new Object();
+    let obj = {};
     // 获得构造函数
     let Con = [].shift.call(arguments);
     // 链接到原型

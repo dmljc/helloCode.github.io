@@ -374,6 +374,19 @@ new HtmlWebpackPlugin({
     }
 })
 ```
+### 设置环境变量
+
+DefinePlugin 允许我们创建全局变量，可以在编译时进行设置，用来区分 开发环境 和 正式环境 或者其他环境（测试环境）。
+
+``` js
+plugins: [
+    new webpack.DefinePlugin({
+        'process.env': {
+            VUEP_BASE_URL: JSON.stringify('http://localhost:9000')
+        }
+    })
+]
+```
 
 ## 进阶一篇
 
@@ -562,7 +575,9 @@ module.exports = {
     plugins: [].concat(htmlWebpackPlugins)
 };
 ```
-### 基础库分离 externals
+### 基础库分离 
+
+<h3>方案1: externals</h3>
 
 * 如果我们想引用一个库，但是又不想让 webpack 打包，并且又不影响我们在项目中使用,可以配置 Externals 解决。
 * 使用 html-webpack-externals-plugin
@@ -583,6 +598,83 @@ new HtmlWebpackExternalsPlugin({
     ]
 })
 ```
+<h3>方案2: DllPlugin</h3>
+
+对于开发项目中不经常会变更的第三方模块。类似于我们的 elementUi、vue 全家桶等等。因为很少会变更，所以我们不希望这些依赖要被集成到每一次的构建逻辑中去。 这样做的好处是每次更改我本地代码的文件的时候，webpack 只需要打包我项目本身的文件代码，而不会再去编译第三方库。以后只要我们不升级第三方包，那么webpack 就不会对这些库去打包，这样可以快速的提高打包的速度。
+
+使用 webpack 内置的 DllPlugin、DllReferencePlugin 进行抽离。在与 webpack 配置文件同级目录下新建 webpack.dll.config.js 代码如下：
+
+``` js{7}
+// webpack.dll.config.js
+const path = require("path");
+const webpack = require("webpack");
+
+module.exports = {
+    entry: {
+        vendor: ['vue', 'vuex', 'vue-router', 'element-ui']  // 想要打包的模块
+    },
+    output: {
+        path: path.resolve(__dirname, 'static/js'), // 打包后文件输出的位置
+        filename: '[name].dll.js',
+        library: '[name]_library' 
+        // 这里需要和 webpack.DllPlugin 中的 `name: '[name]_library',` 保持一致。
+    },
+    plugins: [
+        new webpack.DllPlugin({
+            path: path.resolve(__dirname, '[name]-manifest.json'),
+            name: '[name]_library', 
+            context: __dirname
+        })
+    ]
+};
+```
+在 package.json 中配置如下命令:
+
+``` js
+"dll": "webpack --config build/webpack.dll.config.js"
+```
+
+接下来在 webpack.config.js 中增加以下代码:
+
+``` js
+module.exports = {
+    plugins: [
+        new webpack.DllReferencePlugin({
+            context: __dirname,
+            manifest: require('./vendor-manifest.json')
+        }),
+        new CopyWebpackPlugin([  // 拷贝生成的文件到dist目录 这样每次不必手动去cv
+            { from: 'static', to:'static' }
+        ])
+    ]
+};
+```
+执行:
+
+``` js
+npm run dll
+```
+生成了集合第三地方代码的 vendor.dll.js。但是，需要在 html 文件中手动引入这个js文件:
+
+``` js
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>老yuan</title>
+    <script src="static/js/vendor.dll.js"></script>   // 手动引入这个js文件
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+```
+
+如果我们没有更新第三方依赖包，就不必 npm run dll。直接执行 npm run dev、 npm run build 的时候打包速度明显有提升。
+因为我们已经通过 dllPlugin 将第三方依赖包抽离出来了。
+
 ### Code Splitting
 
 对于⼤的Web应用来讲，将所有的代码都放在一个⽂件中显然是不够有效的，特别是当你的某些代码块是在某些特殊的时候才会被使⽤到。
@@ -835,82 +927,7 @@ optimization: {
     ]
 }
 ```
-### 抽离第三方模块
 
-对于开发项目中不经常会变更的第三方模块。类似于我们的 elementUi、vue 全家桶等等。因为很少会变更，所以我们不希望这些依赖要被集成到每一次的构建逻辑中去。 这样做的好处是每次更改我本地代码的文件的时候，webpack 只需要打包我项目本身的文件代码，而不会再去编译第三方库。以后只要我们不升级第三方包，那么webpack 就不会对这些库去打包，这样可以快速的提高打包的速度。
-
-使用 webpack 内置的 DllPlugin、DllReferencePlugin 进行抽离。在与 webpack 配置文件同级目录下新建 webpack.dll.config.js 代码如下：
-
-``` js{7}
-// webpack.dll.config.js
-const path = require("path");
-const webpack = require("webpack");
-
-module.exports = {
-    entry: {
-        vendor: ['vue', 'vuex', 'vue-router', 'element-ui']  // 想要打包的模块
-    },
-    output: {
-        path: path.resolve(__dirname, 'static/js'), // 打包后文件输出的位置
-        filename: '[name].dll.js',
-        library: '[name]_library' 
-        // 这里需要和 webpack.DllPlugin 中的 `name: '[name]_library',` 保持一致。
-    },
-    plugins: [
-        new webpack.DllPlugin({
-            path: path.resolve(__dirname, '[name]-manifest.json'),
-            name: '[name]_library', 
-            context: __dirname
-        })
-    ]
-};
-```
-在 package.json 中配置如下命令:
-
-``` js
-"dll": "webpack --config build/webpack.dll.config.js"
-```
-
-接下来在 webpack.config.js 中增加以下代码:
-
-``` js
-module.exports = {
-    plugins: [
-        new webpack.DllReferencePlugin({
-            context: __dirname,
-            manifest: require('./vendor-manifest.json')
-        }),
-        new CopyWebpackPlugin([  // 拷贝生成的文件到dist目录 这样每次不必手动去cv
-            { from: 'static', to:'static' }
-        ])
-    ]
-};
-```
-执行:
-
-``` js
-npm run dll
-```
-生成了集合第三地方代码的 vendor.dll.js。但是，需要在 html 文件中手动引入这个js文件:
-
-``` js
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>老yuan</title>
-    <script src="static/js/vendor.dll.js"></script>   // 手动引入这个js文件
-</head>
-<body>
-    <div id="app"></div>
-</body>
-</html>
-```
-
-如果我们没有更新第三方依赖包，就不必 npm run dll。直接执行 npm run dev、 npm run build 的时候打包速度明显有提升。
-因为我们已经通过 dllPlugin 将第三方依赖包抽离出来了。
 
 ### 缓存
 
