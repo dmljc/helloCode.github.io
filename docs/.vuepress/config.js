@@ -7,9 +7,10 @@ module.exports = {
     themeConfig: {
         nav: [
             { text: '前端技能', link: '/base/js' },
-            { text: '性能优化', link: '/optimize/optim' },
-            { text: '面试宝典', link: '/interview/inter' },
-            { text: 'Common-Vue', link: 'http://common-vue.com/' }
+            // { text: '性能优化', link: '/optimize/optim' },
+            { text: 'Linux', link: '/linux/linux' },
+            // { text: '面试宝典', link: '/interview/inter' },
+            // { text: 'Common-Vue', link: 'http://common-vue.com/' }
         ],
         sidebar: {
             '/base': [
@@ -17,7 +18,7 @@ module.exports = {
                 '/base/css',
                 '/base/browser',
                 '/base/vue',
-                '/base/git',
+                // '/base/git',
                 '/base/webpack',
                 '/base/wechat',
                 '/base/safety',
@@ -27,9 +28,12 @@ module.exports = {
             '/optimize': [
                 '/optimize/optim'
             ],
-            '/interview': [
-                '/interview/inter'
-            ]
+            '/linux': [
+                '/linux/linux'
+            ],
+            // '/interview': [
+            //     '/interview/inter'
+            // ]
         }, 
         sidebarDepth: 2,
         search: true, // 是否开启搜索功能
