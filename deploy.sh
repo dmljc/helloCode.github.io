@@ -14,7 +14,7 @@ echo 'zhangfangchao.com' > CNAME
 
 git init
 git add .
-git commit -m 'webpack 抽离第三方模块'
+git commit -m '新增 linux 模块'
 
 # 如果发布到 https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
