@@ -25,9 +25,9 @@ module.exports = {
                 '/base/node',
                 '/base/algorithm',
             ],
-            '/optimize': [
-                '/optimize/optim'
-            ],
+            // '/optimize': [
+            //     '/optimize/optim'
+            // ],
             '/linux': [
                 '/linux/linux'
             ],

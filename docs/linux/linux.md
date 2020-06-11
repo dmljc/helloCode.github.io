@@ -189,7 +189,7 @@ cat tr.txt | tr -d  '456'
 
 ``` js
 echo "thissss is      a text linnnnnnne." | tr -s ' sn'  // this is a text line.
-cat tr.txt  | tr -s '1\n'  // 换行处理 
+cat tr.txt  | tr -s '1'  // 对字符串1做去重处理
 ```
 
 ### wc
@@ -206,7 +206,7 @@ wc [选项] [参数]
 
 ``` js
 -l或--lines             // 只显示行数。
--w或--words             // 只显示字数。
+-w或--words             // 只显示字数。(以空格为分隔符区分的字数)
 -c或--bytes或--chars    // 只显示Bytes数（字节数）。
 ```
 
@@ -239,8 +239,7 @@ somecommand | xargs [选项] [参数]
 
 ``` js
 cat xargs.txt | xargs                   // 多行输入单行输出
-cat xargs.txt | xargs -n 3               // 使用 -n 进行多行输出
-// echo xargs.txt | xargs -dX              // -d 选项 可以自定义一个定界符
+cat xargs.txt | xargs -n3               // 使用 -n 进行多行输出(3表示3列)
 ```
 
 ### sed
@@ -264,11 +263,11 @@ sed [选项] 's/old/new/g' [参数]
 
 ``` js
 sed 's/book/books/g' test.txt   // 全局替换test.txt 文件中的book为books文本 
-sed '/^$/d' test.txt            // 删除test.txt文件中的空白行(
-                                // ^ # 匹配行开始，如：/^sed/匹配所有以sed开头的行。
-                                // $ # 匹配行结束，如：/sed$/匹配所有以sed结尾的行。)
+
+sed '2d' test.txt               // 删除文件的第2行
+sed '/^$/d' test.txt            // 删除test.txt文件中的空白行
 sed '/^test/d' test.txt         // 删除test.txt文件中所有开头是test的行
-sed -e '1,5d' -e 's/test/check/' test.txt // 第一条命令在test.text中删除1至5行，第二条命令用check替换test
+sed -e '/^hello/d' -e '/^$/' test.txt // 删除以hello 开头的行和空白行
 ```
 
 ### awk
@@ -295,7 +294,7 @@ NR   // 表示记录数，在执行过程中对应于当前的行号。
 ``` js
 // 在第一行前添加Start，在第二行后添加End 。(echo 输出指定的字符串或者变量，-e 激活转义字符)。
 
-echo -e "第一行\n第二行" | awk 'BEGIN{ print "Start" } { print } END{ print "End" }'  
+cat wc.txt | awk 'BEGIN{ print "Start" } { print } END{ print "End" }'  
 
 awk 'END{ print NR }' filename              // 统计文件中的行数          
 
@@ -333,9 +332,11 @@ for(变量 in 数组)
 
 awk 'BEGIN{
     for(k in ENVIRON){
-        print k"="ENVIRON[k];   // ENVIRON指系统环境变量
+        print k"="ENVIRON[k];   
     }
 }'
+
+// ENVIRON指系统环境变量
 ```
 
 ### uniq
@@ -353,14 +354,14 @@ uniq [选项] [参数]
 ``` js
 -c  // count 在每列旁边显示该行重复出现的次数。
 -d  // repeated 仅显示重复出现的行列。
--u  // unique 仅显示出一次的行列。
+-u  // unique 打印非邻近的重复行。
 ```
 
 <h3>案例</h3>
 
 ``` js
 uniq uniq.txt // 相邻行的去重。
-uniq -u uniq.txt   // 仅显示出现一次的文本。
+uniq -u uniq.txt   // 显示相邻行出现一次的文本。
 ``` 
 
 ### sort
@@ -376,10 +377,10 @@ sort [选项] [参数]
 <h3>选项</h3>
 
 ``` js
--u  // 输出排序后去重的结果。
--n  // 按照数字大小排序。
+-r 或者 --reverse // 以相反顺序。
+-u 或者 --unique  // 输出排序后去重的结果。
+-n 或者 --numeric-sort   // 按照数字大小排序。
 -k  // 通过一个key排序；KEYDEF给出位置和类型。
--r  // 以相反顺序。
 ```
 
 <h3>案例</h3>
@@ -401,8 +402,9 @@ grep "string" [选项] [参数]
 <h3>选项</h3>
 
 ``` js
--i		// 忽略大小写
--v		// 排除指定字符串     
+-i 或者 --ignore-case	// 忽略大小写
+-v 或者 --revert-match	// 排除指定字符串  
+-c 或者 --count         // 统计文件或者文本中包含匹配字符串的行数。   
 ```
 
 <h3>案例</h3>
@@ -410,6 +412,8 @@ grep "string" [选项] [参数]
 ``` js
 grep 'hello' -i test.txt  // 在test.txt文件中忽略大小写搜索出文本hello
 grep 'hello' -v test.txt  // 在test.txt文件中搜索出排除hello的文本
+
+grep 'hello' -ic grep.txt grep2.txt // 在多个文件中查找文本'hello'
 ```
 
 ### echo
@@ -434,10 +438,9 @@ echo [选项] [参数]
 文字闪动
 
 ``` js
-echo 'hello';echo 'world'   //此时换行显示
-echo -n 'hello';echo 'world'    // 不换行
+echo 'hello\nworld'   //换行显示hello world
 
-echo -e "\033[37;31;5mMySQL Server Stop...\033[39;49;0m"
+echo -e "\033[37;31;5m愿意吾辈之青春，护佑这盛世之中华...\033[39;49;0m"
 ```
 
 颜色码：重置=0，黑色=30，红色=31，绿色=32，黄色=33，蓝色=34，洋红=35，青色=36，白色=37
@@ -474,10 +477,34 @@ tom
 jack
 alex
 
-cut -c-2 cut.txt    // 打印前2个字符：
+cut -c-2 cut.txt    // 打印前2个字符
 
+cut -c4-7 cut.txt   // 打印第4个到第7个字符
 
-cut -c4-7 cut.txt   // 打印第4个到第7个字符：
+cut -c5- cut.txt    // 打印从第 5 个字符开始到结尾
+```
+
+### head
+
+显示文件的开头部分。
+
+<h3>格式</h3>
+
+``` js
+head [选项] [参数]
+```
+
+<h3>选项</h3>
+
+``` js
+-n // 指定默认行，可以省略，直接写数字
+```
+
+<h3>案例</h3>
+
+``` js
+head -3 head.txt       // 展示head.txt 文件的前三行
+head -3 head.txt sort.txt // 展示head.txt 和 sort.txt 文件的前三行
 ```
 
 ### tail
@@ -503,32 +530,9 @@ tail [选项] [参数]
 ``` js
 tail less.txt    // 默认显示less.txt 文件的后10行
 tail -4 less.txt    // 显示less.txt 文件的后4行
+tail +20 less.txt   // 从第20行至文件末尾
 tail -c 10 less.txt  // 显示文件file的最后10个字符
 ```
-
-### head
-
-显示文件的开头部分。
-
-<h3>格式</h3>
-
-``` js
-head [选项] [参数]
-```
-
-<h3>选项</h3>
-
-``` js
--n // 指定默认行
-```
-
-<h3>案例</h3>
-
-``` js
-head -n 3 sort.txt index .txt // 展示sort.txt 和 index.txt 文件的前三行
-
-```
-
 
 ### file
 
@@ -556,8 +560,8 @@ file [选项] [参数]
 <h3>案例</h3>
 
 ``` js
-file wc.txt  // wc.txt: UTF-8 Unicode text
-file -b wc.txt // UTF-8 Unicode text
+file wc.txt  // wc.txt: ASCII text
+file -b wc.txt // ASCII text
 file -i wc.txt // wc.txt: regular file 普通文件
 ```
 
@@ -574,17 +578,17 @@ diff [选项] [参数]
 <h3>选项</h3>
 
 ``` js
--y   // 以并列的方式显示文件的异同之处。
--W 　// 在使用-y参数时，指定栏宽。
--u　  // 以合并的方式来显示文件内容的不同。
+-y 或 --side-by-side   // 以并列的方式显示文件的异同之处。
+-W 或 --width 　// 在使用-y参数时，指定栏宽。
+-u　或 -unified  // 以合并的方式来显示文件内容的不同。
 ```
 
 <h3>案例</h3>
 
 ``` js
-diff -y test.txt index.txt               // 以并列的形式对比两个文件的不同
-diff -y -W 50 test.txt index.txt         // 以并列并且指定行宽为50的形式对比两个文件的不同
-diff -u test.txt index.txt               // 以合并的方式来显示文件内容的不同
+diff -y test.txt index.txt           // 以并列的形式对比两个文件的不同
+diff -y -W 50 test.txt index.txt     // 以并列并且指定行宽为50的形式对比两个文件的不同
+diff -u test.txt index.txt           // 以合并的方式来显示文件内容的不同
 ```
 
 ### find
@@ -600,17 +604,51 @@ find [选项] [参数]
 <h3>选项</h3>
 
 ``` js
--name    // 按照文件名查找
--i       // 忽略大小消息
-!        // 否定参数
+-name                // 按照文件名查找
+-o 或者 or            // 或者
+-i 或者 igonre        // 忽略大小消息
+!                    // 否定参数
+
+-size<文件大小>        // 查找符合指定的文件大小的文件
+    文件大小单元：
+    * b —— 块（512字节）
+    * c —— 字节
+    * w —— 字（2字节）
+    * k —— 千字节
+    * M —— 兆字节
+    * G —— 吉字节
+
+-mtime<24小时数>      // 查找在指定时间曾被更改过的文件或目录，单位以24小时计算；
+
+-type<文件类型>       // 只寻找符合指定的文件类型的文件
+    文件类型:
+    * f 普通文件
+    * d 目录
+    * l 符号连接
+    * c 字符设备
+    * b 块设备
+    * s 套接字
+    * p Fifo
 ```
 
 <h3>案例</h3>
 
 ``` js
-find /home -name "*.txt"                // 在/home目录下查找以.txt结尾的文件名
-find . -name "*.txt" -o -name "*.pdf"   //当前目录及子目录下查找所有以.txt和.pdf结尾的文件
-find /home ! -name "*.txt"              // 找出/home下不是以.txt结尾的文件
+find . -name "*.txt"                   // 在当前目录下查找以.txt结尾的文件名
+find . -iname 'WC*'                    // 在当前目录下忽略大小写查找以WC开头的文件
+find . -name "*.txt" -o -name "*.js"   // 当前目录及子目录下查找所有以.txt和.pdf结尾的文件
+find . ! -name "*.txt"                 // 在当前目录下查找不是以.txt结尾的文件
+
+find . -size +1k            // 搜索大于1KB的文件
+find . -size  1k            // 搜索等于于1KB的文件
+find . -size -1k            // 搜索小于1KB的文件
+
+find . -atime -2             // 查找最近2天内被修改过的所有文件
+find . -atime 2              // 查找恰好在2天前被修改过的所有文件 
+find . -atime +2             // 查找超过2天内被修改过的所有文件 
+
+find . -type f              // 查找当前目录下文件类型是普通文件的所有文件
+find . -type d              // 查找当前目录下文件类型是目录的所有文件
 ```
 
 ### less
@@ -627,22 +665,17 @@ less [选项] [参数]
 
 ``` js
 -e    // 文件内容显示完毕后，自动退出；
--f    // 强制显示文件；
--g    // 不加亮显示搜索到的所有关键词，仅显示当前显示的关键字，以提高显示速度；
--l    // 搜索时忽略大小写的差异；
 -N    // 每一行行首显示行号；
 -s    // 将连续多个空行压缩成一行显示；
--S    // 在单行显示较长的内容，而不换行显示；
--x<数字>    // 将TAB字符显示为指定个数的空格字符。
+-S    // 在单行显示较长的内容，而不换行显示，多出文本的被隐藏；
 ```
 
 <h3>案例</h3>
 
 ``` js
-less -N sort.txt    // 每一行行首显示行号
-
+less -N sort.txt    // 在每一行行首显示行号
 ```
-
+===============================(最近更新时间 2020-06-11 11:36)==================================
 
 ## 备份压缩
 >ar、bunzip2、bzip2、bzip2recover、compress、cpio、dump、gunzip、gzexe、gzip、lha、restore、tar、unarj、unzip、zip、zipinfo
