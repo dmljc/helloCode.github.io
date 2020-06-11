@@ -676,16 +676,40 @@ less [选项] [参数]
 less -N sort.txt    // 在每一行行首显示行号
 ```
 
+### more
+
+显示文件内容，每次显示一屏。
+
+<h3>格式</h3>
+
+``` js
+more [选项] [参数]
+```
+
+<h3>选项</h3>
+
+``` js
+按 Space 键：显示文本的下一屏内容。
+按 Enter 键：只显示文本的下一行内容。
+```
+
 ## 备份压缩
 >ar、bunzip2、bzip2、bzip2recover、compress、cpio、dump、gunzip、gzexe、gzip、lha、restore、tar、unarj、unzip、zip、zipinfo
 
 
 ### tar
 
-该格式仅仅打包，不压缩；想要既打包又压缩除非配置压缩的格式：- z：有gzip属性；- j：有bz2属性的。
+该格式仅打包，不压缩；想要既打包又压缩需配置压缩的格式：-z：有gzip属性；-j：有bz2属性的。
 
-首先要弄清两个概念：打包和压缩。打包是指将一大堆文件或目录变成一个总的文件；压缩则是将一个大的文件通过一些压缩算法变成一个小文件。
-为什么要区分这两个概念呢？这源于Linux中很多压缩程序只能针对一个文件进行压缩，这样当你想要压缩一大堆文件时，你得先将这一大堆文件先打成一个包（tar命令），然后再用压缩程序进行压缩（gzip bzip2命令）。
+首先要弄清两个概念：`打包` 和 `压缩`:
+
+* 打包是指将一大堆文件或目录变成一个总的文件；
+* 压缩则是将一个大的文件通过一些压缩算法变成一个小文件。
+  
+为什么要区分这两个概念呢？
+
+这源于Linux中很多压缩程序只能针对一个文件进行压缩，这样当你想要压缩一大堆文件时，
+你得先将这一大堆文件先打成一个包（tar命令），然后再用压缩程序进行压缩（gzip bzip2命令）。
 
 <h3>格式</h3>
 
@@ -696,13 +720,13 @@ tar [选项] [参数]
 <h3>选项</h3>
 
 ``` js
--c     // 打包
--x     // 解包
--f     // 指定操作类型的文件(必须参数)
--t     // 列出文件
--v     // 详细地列出处理的文件
--r     // 是表示增加文件的意思。
--u     // 是表示更新文件的意思。
+-c 或 --create     // 打包，创建一个新归档
+-x 或 --extract    // 解包
+-f 或 --file       // 指定操作类型的文件(必须参数)
+-t 或 --list       // 列出文件
+-v 或 --verbose    // 详细地列出处理的文件
+-r 或 --append     // 是表示增加文件的意思
+-u 或 --update     // 是表示更新文件的意思
 ```
 
 <h3>案例</h3>
@@ -710,44 +734,108 @@ tar [选项] [参数]
 压缩方式总的说是2大类：第一种是 tar 方式压缩；
 
 ``` js
-// tar 格式仅仅打包，不压缩；想要既打包又压缩除非配置压缩的格式。
+-z：有gzip属性
+-j：有bz2属性
 
-- z：有gzip属性；
-- j：有bz2属性
+// 仅打包，不压缩
+tar -cvf test.tar awk.txt awkcp.txt    // 把 awk.txt 和 awkcp.txt 文件打成一个 test.tar 包
+tar -tvf test.tar                      // 查看 test.tar 包都包含哪些文件
+tar -xvf test.tar                      // 解压 test.tar 压缩包
 
-tar -cvf log.tar log2012.log       // 仅打包，不压缩！
-tar -zcvf log.tar.gz log2012.log   // 打包后，以 gzip 压缩
-tar -jcvf log.tar.bz2 log2012.log  // 打包后，以 bzip2 压缩
+// 打包后压缩
+tar -zcvf test.tar.gz test.txt       // 把 test.txt文件，打成 test.tar.gz 包后，以 gzip 格式压缩
+tar -jcvf test.tar.bz2 test.txt      // 把 test.txt文件，打成 test.tar.bz2 包后，以 bzip2 格式压缩
 ```
-第二种是非tar方式压缩，而是根据各种格式压缩。压缩文件格式有很多种： .zip、.gz、.bz2、.xz、.tar .....
+
+第二种是非 tar 方式压缩，是根据各种格式压缩。压缩文件格式有很多种：.zip、.gz、.bz2、.xz、.jar .....
+
+### zip
+
+用来解压缩文件，或者对文件进行打包操作。zip是个使用广泛的压缩程序，文件经它压缩后会另外产生具有“.zip”扩展名的压缩文件。
+
+<h3>格式</h3>
 
 ``` js
-// .zip 格式
-
-压缩： zip -r [目标文件名].zip [原文件/目录名]
-解压： unzip [原文件名].zip
-注：-r参数代表递归
-
-// .gz格式
-
-压缩: gzip [原文件名].tar
-解压：gunzip [原文件名].tar.gz
-
-// .bz2格式 （利用已经打包好的tar文件，直接执行压缩命令)
-
-压缩: bzip2 [原文件名].tar
-解压: bunzip2 [原文件名].tar.bz2
-
-// .jar格式
-
-压缩：jar -cvf [目标文件名].jar [原文件名/目录名]
-解压：jar -xvf [原文件名].jar
+zip [选项] [目标文件名].zip [原文件/目录名]
 ```
 
+<h3>选项</h3>
 
+```js
+-r  // 递归处理
+-q  // 不显示指令执行过程
+-u  // 更换较新的文件到压缩文件内
+```
 
+<h3>格式</h3>
 
+``` js
+unzip [选项] [原文件名].zip
+```
 
+<h3>选项</h3>
+
+```js
+-l  // 查看压缩包都包含哪些文件
+```
+
+### gzip
+
+用来压缩文件。gzip是个使用广泛的压缩程序，文件经它压缩过后，其名称后面会多处“.gz”扩展名。
+
+压缩
+
+```js
+gzip [原文件名]
+
+// 压缩之后，源文件被删除了
+```
+
+解压缩
+
+```js
+gunzip [原文件名].tar.gz
+
+// 解压之后原压缩包被删除了
+```
+
+### bzip2
+
+用于创建和管理（包括解压缩）“.bz2”格式的压缩包（利用已经打包好的tar文件，直接执行压缩命令)。
+
+压缩
+
+```js
+bzip2 [原文件名]
+
+// 压缩之后，源文件被删除了
+```
+
+解压
+
+```js
+bunzip2 [原文件名].tar.bz2
+
+// 解压之后原压缩包被删除了
+```
+
+### jar
+
+用于创建和管理（包括解压缩）.jar格式的压缩包。
+
+压缩
+
+```js
+jar cvf [目标文件名].jar [原文件名/目录名]
+```
+
+解压
+
+```js
+jar xvf [原文件名].jar
+
+// 解压之后会生成 META-INF 文件夹
+```
 
 ## 磁盘管理
 >cd、df、dirs、du、edquota、eject、lndir、ls、mcd、mdeltree、mdu、mkdir、mlabel、mmd、mmount、mrd、mzip、pwd、quota、quotacheck、quotaoff、quotaon、repquota、rmdir、rmt、stat、tree、umount
