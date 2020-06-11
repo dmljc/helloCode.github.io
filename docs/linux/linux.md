@@ -675,7 +675,6 @@ less [选项] [参数]
 ``` js
 less -N sort.txt    // 在每一行行首显示行号
 ```
-=========(最近更新时间 2020-06-11 11:58)============
 
 ## 备份压缩
 >ar、bunzip2、bzip2、bzip2recover、compress、cpio、dump、gunzip、gzexe、gzip、lha、restore、tar、unarj、unzip、zip、zipinfo
