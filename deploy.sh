@@ -14,7 +14,7 @@ echo 'zhangfangchao.com' > CNAME
 
 git init
 git add .
-git commit -m 'git add tag'
+git commit -m 'linux 完善磁盘和系统管理'
 
 # 如果发布到 https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
