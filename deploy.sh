@@ -27,5 +27,5 @@ cd -
 
 # 以下为张芳朝部署上线的配置
 # 为了优化以上部署上线时的步骤，在 package.json 配置了一键部署
-#  "d": "bash deploy.sh"
-# 只需要执行 npm run d 即可实现一键部署
+#  "deploy": "bash deploy.sh"
+# 只需要执行 npm run deploy 即可实现一键部署
