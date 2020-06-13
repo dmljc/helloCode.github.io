@@ -41,10 +41,10 @@ git stash
 
 // 或者你想给 stash 填写储藏信息可以使用 save，类似填写 commit 信息
 
-git stash save 'message'
+git stash save -u 'message'
 ```
 ::: warning 注意：
-没有被 track 的文件 不会被 stash 起来，因为 Git 会忽略它们。如果想把这些文件也一起 stash，可以加上 `-u` 参数，它是 `--include-untracked` 的简写。就像这样：git stash -u
+没有被 track 的文件 不会被 stash 起来，因为 Git 会忽略它们。如果想把这些文件也一起 stash，可以加上 `-u` 参数，它是 `--include-untracked` 的简写。
 ::: 
 
 <h3>查看现有 stash </h3>
