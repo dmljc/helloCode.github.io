@@ -2,7 +2,7 @@
 home: true
 heroImage: /images/logo.jpeg
 actionText: 快速上手 →
-actionLink: /base/js
+actionLink: /linux/linux
 features:
 - title: 积累
   details: 专业技能的积累和沉淀，是知识融汇贯通的不二法门。

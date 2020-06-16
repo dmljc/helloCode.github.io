@@ -1,6 +1,8 @@
 # Linux 是什么
 
-Linux 是服务端最流行的操作系统。
+![linux](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592302227034&di=b65ada6c29629f59b61ab52a4d1ae2c9&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180125%2F441073a2188841b09d7092316906c586.jpeg)
+
+> Linux 是服务端最流行的操作系统。
 
 ## 目录介绍
 
@@ -153,7 +155,7 @@ sudo (name)     // 以其他用户身份执行命令(如执行root用户授权�
 
 ### tr
 
-将字符进行替换压缩和删除。
+将字符进行替换、压缩、删除。
 
 <h3>格式</h3>
 
@@ -179,12 +181,7 @@ tr [选项] [参数]
 echo "HELLO WORLD" | tr 'A-Z' 'a-z'   // hello world
 cat tr.txt | tr 'A-Z' 'a-z' 
 ```
-使用tr删除字符：
 
-``` js
-echo "hello 123 world 456" | tr -d '0-9' // hello  world 
-cat tr.txt | tr -d  '456' 
-```
 用-s压缩字符，可以压缩输入中重复的字符（可以理解为去重）
 
 ``` js
@@ -192,9 +189,16 @@ echo "thissss is      a text linnnnnnne." | tr -s ' sn'  // this is a text line.
 cat tr.txt  | tr -s '1'  // 对字符串1做去重处理
 ```
 
+使用tr删除字符：
+
+``` js
+echo "hello 123 world 456" | tr -d '0-9' // hello  world 
+cat tr.txt | tr -d  '456' 
+```
+
 ### wc
 
-依次 统计文件的 行数、字数、字节数。
+依次统计文件的 行数、字数、字节数。
 
 <h3>格式</h3>
 
@@ -205,9 +209,9 @@ wc [选项] [参数]
 <h3>选项</h3>
 
 ``` js
--l或--lines             // 只显示行数。
--w或--words             // 只显示字数。(以空格为分隔符区分的字数)
--c或--bytes或--chars    // 只显示Bytes数（字节数）。
+-l 或--lines             // 只显示行数。
+-w 或--words             // 只显示字数。(以空格为分隔符区分的字数)
+-c 或--bytes或--chars    // 只显示Bytes数（字节数）。
 ```
 
 <h3>案例</h3>
@@ -430,6 +434,7 @@ echo [选项] [参数]
 
 ``` js
 -n // 不换行
+>  // 大于号，显示结果定向输出至文件
 -e // 激活转义字符。
 ```
 
@@ -438,9 +443,11 @@ echo [选项] [参数]
 文字闪动
 
 ``` js
-echo 'hello\nworld'   //换行显示hello world
+echo 'hello\nworld'   //换行显示hello world，引号可以省略
 
-echo -e "\033[37;31;5m愿意吾辈之青春，护佑这盛世之中华...\033[39;49;0m"
+echo '你很美' > echo.txt   // 把文本‘你很美’输出至 echo.txt 文件
+
+echo -e "\033[37;31;5m愿以吾辈之青春，护佑这盛世之中华...\033[39;49;0m"
 ```
 
 颜色码：重置=0，黑色=30，红色=31，绿色=32，黄色=33，蓝色=34，洋红=35，青色=36，白色=37
@@ -468,7 +475,7 @@ cut [选项] [参数]
 
 <h3>案例</h3>
 
-使用 -f 选项提取指定字段（这里的 f 参数可以简单记忆为 --fields的缩写）：
+使用 -f 选项提取指定字段（这里的 f 参数可以简单记忆为 --fields的缩写）
 
 ``` js
 [root@localhost text]# cut -f2 -d";" cut.txt
@@ -477,11 +484,34 @@ tom
 jack
 alex
 
-cut -c-2 cut.txt    // 打印前2个字符
+cut -f2 -d';' cut.txt    // 打印第2列
+cut -f2- -d';' cut.txt   // 打印第2列及以后列
+cut -f2-3 -d';' cut.txt  // 打印第2列及第3列
 
-cut -c4-7 cut.txt   // 打印第4个到第7个字符
+cut -c2 cut.txt     // 打印第2个字符
+cut -c2- cut.txt    // 打印从第2个字符开始到结尾
+cut -c2-7 cut.txt   // 打印第2个到第7个字符
+```
 
-cut -c5- cut.txt    // 打印从第 5 个字符开始到结尾
+### rm
+
+用于删除给定的文件和目录。
+
+注意：使用rm命令要格外小心。因为一旦删除了一个文件，就无法再恢复它。
+
+<h3>格式</h3>
+
+``` js
+rm [选项] [参数]
+```
+
+<h3>选项</h3>
+
+``` js
+-f  // 强制删除文件或目录；
+-i  // 删除已有文件或目录之前先询问用户；
+-r或-R  // 递归处理，将指定目录下的所有文件与子目录一并处理；
+--preserve-root  // 不对根目录进行递归操作；
 ```
 
 ### head
@@ -497,13 +527,13 @@ head [选项] [参数]
 <h3>选项</h3>
 
 ``` js
--n // 指定默认行，可以省略，直接写数字
+-n      // 指定默认行，可以省略，直接写数字
 ```
 
 <h3>案例</h3>
 
 ``` js
-head -3 head.txt       // 展示head.txt 文件的前三行
+head -3 head.txt          // 展示head.txt 文件的前三行
 head -3 head.txt sort.txt // 展示head.txt 和 sort.txt 文件的前三行
 ```
 
@@ -520,18 +550,18 @@ tail [选项] [参数]
 <h3>选项</h3>
 
 ``` js
--c // 输出文件尾部的N（N为整数）个字节内容；
--f //显示文件最新追加的内容。“name”表示以文件名的方式监视文件的变化。“-f”与“-fdescriptor”等效；
--F // 连用时功能相同；
+-c  // 输出文件尾部的N（N为整数）个字节内容；
+-f  //显示文件最新追加的内容。“name”表示以文件名的方式监视文件的变化。“-f”与“-fdescriptor”等效；
+-F  // 连用时功能相同；
 ```
 
 <h3>案例</h3>
 
 ``` js
-tail less.txt    // 默认显示less.txt 文件的后10行
-tail -4 less.txt    // 显示less.txt 文件的后4行
-tail +20 less.txt   // 从第20行至文件末尾
-tail -c 10 less.txt  // 显示文件file的最后10个字符
+tail tail.txt        // 默认显示tail.txt 文件的后10行
+tail -4 tail.txt     // 显示tail.txt 文件的后4行
+tail +20 tail.txt    // 从第20行至文件末尾
+tail -c 10 tail.txt  // 显示文件file的最后10个字符
 ```
 
 ### file
@@ -549,10 +579,10 @@ file [选项] [参数]
 ``` js
 -b：   // 列出辨识结果时，不显示文件名称；
 -c：   // 详细显示指令执行过程，便于排错或分析程序执行的情形；
--f<名称文件>：   // 指定名称文件，其内容有一个或多个文件名称时，让file依序辨识这些文件，格式为每列一个文件名称；
--i       // 显示MIME类别。
+-f：   // 指定名称文件，其内容有一个或多个文件名称时，让file依序辨识这些文件，格式为每列一个文件名称；
+-i     // 显示MIME类别。
 -L：   // 直接显示符号连接所指向的文件类别；
--m<魔法数字文件>：   // 指定魔法数字文件；
+-m：   // 指定魔法数字文件；
 -v：   // 显示版本信息；
 -z：   // 尝试去解读压缩文件的内容。
 ```
@@ -560,9 +590,9 @@ file [选项] [参数]
 <h3>案例</h3>
 
 ``` js
-file wc.txt  // wc.txt: ASCII text
-file -b wc.txt // ASCII text
-file -i wc.txt // wc.txt: regular file 普通文件
+file wc.txt     // wc.txt: ASCII text
+file -b wc.txt  // ASCII text
+file -i wc.txt  // wc.txt: regular file 普通文件
 ```
 
 ### diff
@@ -579,8 +609,8 @@ diff [选项] [参数]
 
 ``` js
 -y 或 --side-by-side   // 以并列的方式显示文件的异同之处。
--W 或 --width 　// 在使用-y参数时，指定栏宽。
--u　或 -unified  // 以合并的方式来显示文件内容的不同。
+-W 或 --width 　       // 在使用-y参数时，指定栏宽。
+-u 或 -unified         // 以合并的方式来显示文件内容的不同。
 ```
 
 <h3>案例</h3>
@@ -605,8 +635,8 @@ find [选项] [参数]
 
 ``` js
 -name                // 按照文件名查找
--o 或者 or            // 或者
--i 或者 igonre        // 忽略大小消息
+-o 或 or             // 或者
+-i 或 igonre         // 忽略大小消息
 !                    // 否定参数
 
 -size<文件大小>        // 查找符合指定的文件大小的文件
@@ -643,9 +673,9 @@ find . -size +1k            // 搜索大于1KB的文件
 find . -size  1k            // 搜索等于于1KB的文件
 find . -size -1k            // 搜索小于1KB的文件
 
-find . -atime -2             // 查找最近2天内被修改过的所有文件
-find . -atime 2              // 查找恰好在2天前被修改过的所有文件 
-find . -atime +2             // 查找超过2天内被修改过的所有文件 
+find . -mtime -2             // 查找最近2天内被修改过的所有文件
+find . -mtime 2              // 查找恰好在2天前被修改过的所有文件 
+find . -mtime +2             // 查找超过2天内被修改过的所有文件 
 
 find . -type f              // 查找当前目录下文件类型是普通文件的所有文件
 find . -type d              // 查找当前目录下文件类型是目录的所有文件

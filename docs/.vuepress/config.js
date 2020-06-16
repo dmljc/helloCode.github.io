@@ -6,7 +6,7 @@ module.exports = {
     locales: { '/': { lang: 'zh-CN' }},
     themeConfig: {
         nav: [
-            { text: '前端技能', link: '/base/js' },
+            // { text: '前端技能', link: '/base/js' },
             // { text: '性能优化', link: '/optimize/optim' },
             { text: 'Linux', link: '/linux/linux' },
             // { text: '面试宝典', link: '/interview/inter' },
@@ -18,7 +18,7 @@ module.exports = {
                 '/base/css',
                 '/base/browser',
                 '/base/vue',
-                // '/base/git',
+                '/base/git',
                 '/base/webpack',
                 '/base/wechat',
                 '/base/safety',
