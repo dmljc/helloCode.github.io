@@ -14,7 +14,7 @@ echo 'zhangfangchao.com' > CNAME
 
 git init
 git add .
-git commit -m 'feat: git stash save -u'
+git commit -m 'feat: linux add cp、mv'
 
 # 如果发布到 https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
