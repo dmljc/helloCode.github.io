@@ -303,7 +303,7 @@ cat wc.txt | awk 'BEGIN{ print "Start" } { print } END{ print "End" }'
 awk 'END{ print NR }' filename              // 统计文件中的行数          
 
 val=10000
-echo | awk -v myVal=$VAR '{ print myVal }'   // 将外部值 10000 传递给awk
+echo | awk -v myVal=$val '{ print myVal }'   // 将外部值 10000 传递给awk
 ```
 
 条件判断语句
@@ -539,10 +539,12 @@ tom
 jack
 alex
 
+cut -f-2 -d';' cut.txt    // 打印第2列及以前所有列
 cut -f2 -d';' cut.txt    // 打印第2列
 cut -f2- -d';' cut.txt   // 打印第2列及以后列
 cut -f2-3 -d';' cut.txt  // 打印第2列及第3列
 
+cut -c-2 cut.txt     // 打印第2个字符以及以前的字符
 cut -c2 cut.txt     // 打印第2个字符
 cut -c2- cut.txt    // 打印从第2个字符开始到结尾
 cut -c2-7 cut.txt   // 打印第2个到第7个字符
@@ -822,6 +824,7 @@ tar [选项] [参数]
 ``` js
 -z：有gzip属性
 -j：有bz2属性
+-J：有xz属性
 
 // 仅打包，不压缩
 tar -cvf test.tar awk.txt awkcp.txt    // 把 awk.txt 和 awkcp.txt 文件打成一个 test.tar 包
@@ -832,6 +835,10 @@ tar -xvf test.tar                      // 解压 test.tar 压缩包
 tar -zcvf test.tar.gz test.txt       // 把 test.txt文件，打成 test.tar.gz 包后，以 gzip 格式压缩
 tar -jcvf test.tar.bz2 test.txt      // 把 test.txt文件，打成 test.tar.bz2 包后，以 bzip2 格式压缩
 ```
+
+::: tip tar -cvf 与 tar cvf 有什么区别?
+这两个命令是等效的。- 的应用范围是参数分开使用的情况，连续无分隔参数可以不使用 -。
+:::
 
 第二种是非 tar 方式压缩，是根据各种格式压缩。压缩文件格式有很多种：.zip、.gz、.bz2、.xz、.jar .....
 
