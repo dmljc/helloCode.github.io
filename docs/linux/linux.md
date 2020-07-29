@@ -268,6 +268,8 @@ sed [选项] 's/old/new/g' [参数]
 ``` js
 sed 's/book/books/g' test.txt   // 全局替换test.txt 文件中的book为books文本 
 
+sed '2,5d' sed.txt 
+
 sed '2d' test.txt               // 删除文件的第2行
 sed '/^$/d' test.txt            // 删除test.txt文件中的空白行
 sed '/^test/d' test.txt         // 删除test.txt文件中所有开头是test的行

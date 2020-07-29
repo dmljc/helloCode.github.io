@@ -14,7 +14,7 @@ echo 'zhangfangchao.com' > CNAME
 
 git init
 git add .
-git commit -m 'feat: linux gunzip -l'
+git commit -m 'feat: 展开所有菜单'
 
 # 如果发布到 https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master

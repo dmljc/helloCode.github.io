@@ -6,11 +6,11 @@ module.exports = {
     locales: { '/': { lang: 'zh-CN' }},
     themeConfig: {
         nav: [
-            // { text: '前端技能', link: '/base/js' },
-            // { text: '性能优化', link: '/optimize/optim' },
+            { text: '前端技能', link: '/base/js' },
+            { text: '性能优化', link: '/optimize/optim' },
             { text: 'Linux', link: '/linux/linux' },
-            // { text: '面试宝典', link: '/interview/inter' },
-            // { text: 'Common-Vue', link: 'http://common-vue.com/' }
+            { text: '面试宝典', link: '/interview/inter' },
+            { text: 'Common-Vue', link: 'http://common-vue.com/' }
         ],
         sidebar: {
             '/base': [
@@ -25,15 +25,15 @@ module.exports = {
                 '/base/node',
                 '/base/algorithm',
             ],
-            // '/optimize': [
-            //     '/optimize/optim'
-            // ],
+            '/optimize': [
+                '/optimize/optim'
+            ],
             '/linux': [
                 '/linux/linux'
             ],
-            // '/interview': [
-            //     '/interview/inter'
-            // ]
+            '/interview': [
+                '/interview/inter'
+            ]
         }, 
         sidebarDepth: 2,
         search: true, // 是否开启搜索功能
