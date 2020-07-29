@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>工具 Git | Hello Code</title>
+    <meta name="description" content=" ">
+    <link rel="icon" href="/favicon.ico">
+    
+    <link rel="preload" href="/assets/css/0.styles.3c6340de.css" as="style"><link rel="preload" href="/assets/js/app.13f7f72b.js" as="script"><link rel="preload" href="/assets/js/2.8bf05cb3.js" as="script"><link rel="preload" href="/assets/js/10.8bebb348.js" as="script"><link rel="prefetch" href="/assets/js/11.913af1ee.js"><link rel="prefetch" href="/assets/js/12.c675867c.js"><link rel="prefetch" href="/assets/js/13.46800553.js"><link rel="prefetch" href="/assets/js/14.e395c1f7.js"><link rel="prefetch" href="/assets/js/15.71d46fae.js"><link rel="prefetch" href="/assets/js/16.a6c58972.js"><link rel="prefetch" href="/assets/js/17.a954c160.js"><link rel="prefetch" href="/assets/js/18.87b2e95c.js"><link rel="prefetch" href="/assets/js/19.3f486f4d.js"><link rel="prefetch" href="/assets/js/20.8a0c2b77.js"><link rel="prefetch" href="/assets/js/21.a2079b54.js"><link rel="prefetch" href="/assets/js/3.fa963c5f.js"><link rel="prefetch" href="/assets/js/4.183c4edd.js"><link rel="prefetch" href="/assets/js/5.e363be55.js"><link rel="prefetch" href="/assets/js/6.cbca80e7.js"><link rel="prefetch" href="/assets/js/7.0b458db0.js"><link rel="prefetch" href="/assets/js/8.ae74a92a.js"><link rel="prefetch" href="/assets/js/9.e6d88331.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.3c6340de.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Hello Code</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/base/js.html" class="nav-link">前端技能</a></div><div class="nav-item"><a href="/optimize/optim.html" class="nav-link">性能优化</a></div><div class="nav-item"><a href="/linux/linux.html" class="nav-link">Linux</a></div><div class="nav-item"><a href="/interview/inter.html" class="nav-link">面试宝典</a></div><div class="nav-item"><a href="http://common-vue.com/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Common-Vue
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/base/js.html" class="nav-link">前端技能</a></div><div class="nav-item"><a href="/optimize/optim.html" class="nav-link">性能优化</a></div><div class="nav-item"><a href="/linux/linux.html" class="nav-link">Linux</a></div><div class="nav-item"><a href="/interview/inter.html" class="nav-link">面试宝典</a></div><div class="nav-item"><a href="http://common-vue.com/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Common-Vue
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/base/js.html" class="sidebar-link">基础阶段</a></li><li><a href="/base/css.html" class="sidebar-link">CSS 模块</a></li><li><a href="/base/browser.html" class="sidebar-link">浏览器篇</a></li><li><a href="/base/vue.html" class="sidebar-link">前端框架</a></li><li><a href="/base/git.html" class="active sidebar-link">工具 Git</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/base/git.html#全能图" class="sidebar-link">全能图</a></li><li class="sidebar-sub-header"><a href="/base/git.html#rebase" class="sidebar-link">Rebase</a></li><li class="sidebar-sub-header"><a href="/base/git.html#stash" class="sidebar-link">Stash</a></li><li class="sidebar-sub-header"><a href="/base/git.html#reset" class="sidebar-link">Reset</a></li><li class="sidebar-sub-header"><a href="/base/git.html#commit" class="sidebar-link">Commit</a></li><li class="sidebar-sub-header"><a href="/base/git.html#checkout" class="sidebar-link">Checkout</a></li><li class="sidebar-sub-header"><a href="/base/git.html#tag" class="sidebar-link">Tag</a></li></ul></li><li><a href="/base/webpack.html" class="sidebar-link">Webpack</a></li><li><a href="/base/wechat.html" class="sidebar-link">小程序篇</a></li><li><a href="/base/safety.html" class="sidebar-link">安全相关</a></li><li><a href="/base/node.html" class="sidebar-link">Node模块</a></li><li><a href="/base/algorithm.html" class="sidebar-link">算法基础</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="工具-git"><a href="#工具-git" class="header-anchor">#</a> 工具 Git</h1> <h2 id="全能图"><a href="#全能图" class="header-anchor">#</a> 全能图</h2> <p><img src="https://t1.picb.cc/uploads/2019/09/09/gXSUxe.jpg" alt=""></p> <p>注：此图借鉴自业界响当当的人物阮一峰老师。</p> <h2 id="rebase"><a href="#rebase" class="header-anchor">#</a> Rebase</h2> <p>该命令可以让和 <code>merge</code> 命令得到的结果基本是一致的。</p> <p>通常使用 <code>merge</code> 操作将分支上的代码合并到 <code>master</code> 中，分支样子如下所示</p> <p><img src="https://t1.picb.cc/uploads/2019/09/09/gXjARg.md.png" alt=""></p> <p>使用 <code>rebase</code> 后，会将 <code>develop</code> 上的 <code>commit</code> 按顺序移到 <code>master</code> 的第三个 <code>commit</code> 后面，分支样子如下所示</p> <p><img src="https://t1.picb.cc/uploads/2019/09/09/gXp4ST.png" alt=""></p> <p>使用 rebase 应该在需要被 rebase 的分支上操作，并且该分支是本地分支。如果 <code>develop</code> 分支需要 rebase 到 <code>master</code> 上去，那么应该如下操作</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token comment">// current branch develop</span>
+git rebase master
+
+git checkout master
+<span class="token comment">// 用于将 master 上的 HEAD 移动到最新的 commit</span>
+git merge develop
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>rebase 对比 merge，优势在于合并后的结果很清晰，只有一条线，劣势在于如果一旦出现冲突，解决冲突很麻烦，可能要解决多个冲突，但是 merge 出现冲突只需要解决一次。</p> <h2 id="stash"><a href="#stash" class="header-anchor">#</a> Stash</h2> <p><code>stash</code> 用于临时保存工作目录的改动。开发中可能会遇到代码写一半需要切分支打包的问题，如果这时候你不想 <code>commit</code> 的话，就可以使用该命令。</p> <h3>储藏操作：</h3> <div class="language-js line-numbers-mode"><pre class="language-js"><code>git stash 
+
+<span class="token comment">// 或者你想给 stash 填写储藏信息可以使用 save，类似填写 commit 信息</span>
+
+git stash save <span class="token operator">-</span>u <span class="token string">'message'</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><div class="custom-block warning"><p class="custom-block-title">注意：</p> <p>没有被 track 的文件 不会被 stash 起来，因为 Git 会忽略它们。如果想把这些文件也一起 stash，可以加上 <code>-u</code> 参数，它是 <code>--include-untracked</code> 的简写。</p></div> <h3>查看现有 stash </h3> <div class="language-js line-numbers-mode"><pre class="language-js"><code>git stash list
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h3>移除 stash </h3> <div class="language-js line-numbers-mode"><pre class="language-js"><code>git stash drop stash@<span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span>  <span class="token comment">// 将记录列表中取出的对应暂存记录删除</span>
+
+git stash clear <span class="token comment">// 删除所有缓存的stash</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3>取出操作：</h3> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token comment">// 取出最近一次暂存并删除记录列表中对应记录</span>
+git stash pop
+
+<span class="token comment">// 或者你储藏的操作不止一次，可以通过 apply 取出相应的记录</span>
+
+git stash apply stash@<span class="token punctuation">{</span><span class="token constant">X</span><span class="token punctuation">}</span> <span class="token comment">// X 是指定的 stash 版本。但是，相对 pop 列表中对应记录还在</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>这样你之前临时保存的代码又回来了。</p> <h2 id="reset"><a href="#reset" class="header-anchor">#</a> Reset</h2> <p>HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token comment">// 撤销最新的 commit</span>
+git reset <span class="token operator">--</span>hard <span class="token constant">HEAD</span><span class="token operator">^</span>
+
+<span class="token comment">// 撤销指定的 commit</span>
+git reset <span class="token operator">--</span>hard commit_id
+
+<span class="token comment">// 穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。</span>
+<span class="token comment">// 要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>但是 <code>reset</code> 的本质并不是删除了 commit，而是重新设置了 HEAD 和它指向的 branch。</p> <h2 id="commit"><a href="#commit" class="header-anchor">#</a> Commit</h2> <p>如果在未 push 之前想修改 commit 可以采用 amend 「修正」</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token comment">// 修改最新的 commit 信息</span>
+git commit <span class="token operator">-</span>amend
+
+<span class="token comment">// 修改指定的 commit 修改</span>
+git rebase <span class="token operator">-</span>i commit_id  <span class="token comment">// 父级commit_id</span>
+
+<span class="token comment">// 然后，跳出 vim 界面</span>
+pick be12bef 我是修改之前的倒数第二个 commit 信息
+pick bf232ne 我是修改之前的倒数第一个 commit 信息
+
+<span class="token comment">// 假如我想修改倒数第一个的 commit 信息</span>
+pick be12bef 我是修改之前的倒数第二个 commit 信息
+r bf232ne 修改之后的倒数第一个 commit 信息！！
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>修改完之后，点击 esc :wq 保存退出。</p> <h2 id="checkout"><a href="#checkout" class="header-anchor">#</a> Checkout</h2> <p>checkout 除了切换分支，还可以把未 add 的本地修改撤销</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code>git checkout 目标文件
+
+<span class="token comment">// 撤销本地全部的修改</span>
+git checkout <span class="token punctuation">.</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h2 id="tag"><a href="#tag" class="header-anchor">#</a> Tag</h2> <div class="language-js line-numbers-mode"><pre class="language-js"><code>git tag 						<span class="token comment">// 查看所有tag</span>
+git tag <span class="token operator">-</span>l <span class="token string">'v1.3*'</span>				<span class="token comment">// -l 命令使用通配符来过滤tag</span>
+
+git tag tagName 				<span class="token comment">// 创建tag</span>
+git tag <span class="token operator">-</span>a tagName <span class="token operator">-</span>m <span class="token string">'XXX'</span>		<span class="token comment">// 创建tag的同时添加tag的commit信息 =======》很重要</span>
+
+git push origin tagName			<span class="token comment">// 把tag推送到远端</span>
+git push origin —tags			<span class="token comment">// 推送本地所有tag到远端</span>
+
+git show tagName				<span class="token comment">// 查看某个tag的详细信息</span>
+
+git tag tagName commitID				<span class="token comment">// 为历史版本添加tag(方式一)</span>
+git tag <span class="token operator">-</span>a tagName commitID <span class="token operator">-</span>m <span class="token string">'XXX'</span>    <span class="token comment">// 为历史版本添加tag（方式二）</span>
+
+git tag <span class="token operator">-</span>d tagName  					<span class="token comment">// 删除本地tag</span>
+git push origin —<span class="token keyword">delete</span> tagName			<span class="token comment">// 删除远端tag（方式一）</span>
+git push origin <span class="token punctuation">:</span>refs<span class="token operator">/</span>tags<span class="token operator">/</span>tagName		<span class="token comment">// 删除远端tag（方式二)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">2020-6-13 9:39:54 AM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/base/vue.html" class="prev">前端框架</a></span> <span class="next"><a href="/base/webpack.html">Webpack</a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.13f7f72b.js" defer></script><script src="/assets/js/2.8bf05cb3.js" defer></script><script src="/assets/js/10.8bebb348.js" defer></script>
+  </body>
+</html>
